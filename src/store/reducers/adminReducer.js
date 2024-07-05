@@ -1,33 +1,73 @@
 import actionTypes from '../actions/actionTypes';
 
 const initialState = {
-    isLoggedIn: false,
-    adminInfo: null
+    isLoading: false,
+    genders: [],
+    roles: [],
+    positions: [],
+    users: []
 }
 
-const appReducer = (state = initialState, action) => {
+const adminReducer = (state = initialState, action) => {
+    let copyState = { ...state }
     switch (action.type) {
-        case actionTypes.ADMIN_LOGIN_SUCCESS:
+        case actionTypes.FETCH_GENDER_START:
+            copyState.isLoading = true
             return {
-                ...state,
-                isLoggedIn: true,
-                adminInfo: action.adminInfo
+                ...copyState,
             }
-        case actionTypes.ADMIN_LOGIN_FAIL:
+        case actionTypes.FETCH_GENDER_SUCCESS:
+            copyState.isLoading = false
+            copyState.genders = action.data
             return {
-                ...state,
-                isLoggedIn: false,
-                adminInfo: null
+                ...copyState
             }
-        case actionTypes.PROCESS_LOGOUT:
+        case actionTypes.FETCH_GENDER_FAIDED:
+            copyState.isLoading = false
+            copyState.genders = []
+            return {
+                ...copyState,
+            }
+
+        case actionTypes.FETCH_ROLE_START:
             return {
                 ...state,
-                isLoggedIn: false,
-                adminInfo: null
+            }
+        case actionTypes.FETCH_ROLE_SUCCESS:
+            copyState.roles = action.data
+            return {
+                ...copyState,
+            }
+        case actionTypes.FETCH_ROLE_FAIL:
+            return {
+                ...state,
+            }
+
+        case actionTypes.FETCH_POSITION_START:
+            return {
+                ...state,
+            }
+        case actionTypes.FETCH_POSITION_SUCCESS:
+            copyState.positions = action.data
+            return {
+                ...copyState,
+            }
+        case actionTypes.FETCH_POSITION_FAIL:
+            return {
+                ...state,
+            }
+        case actionTypes.FETCH_USER_SUCCESS:
+            copyState.users = action.users
+            return {
+                ...copyState,
+            }
+        case actionTypes.FETCH_USER_FAIL:
+            return {
+                ...state,
             }
         default:
             return state;
     }
 }
 
-export default appReducer;
+export default adminReducer;
